@@ -20,57 +20,62 @@ namespace WpfGame.Services
         {
             get { return this.currentTurn; }
         }
-        private ObservableCollection<ObservableCollection<Square>> board;
-        public GameLogic(ObservableCollection<ObservableCollection<Square>> cells, Piece turn) //last
+        private ObservableCollection<ObservableCollection<Square>> board { get; set; }
+        public GameLogic(ObservableCollection<ObservableCollection<Square>> board, Piece turn) //last
         {
-            this.board = cells;
+            this.board = board;
             this.currentTurn = turn;
         }
 
         public void SwitchTurns()
         {
-            if (this.CurrentTurn.Color == Color.Red)
+            if (Utility.CurrentTurn.Color == Color.Red)
             {
                 Utility.CurrentTurn.Color = Color.Black;
+                Utility.CurrentTurn.ImageSource = Utility.dark_piece;
                 this.currentTurn.Color = Color.Black;
+                this.currentTurn.ImageSource = Utility.dark_piece;
             }
             else
             {
                 Utility.CurrentTurn.Color = Color.Red;
+                Utility.CurrentTurn.ImageSource = Utility.light_piece;
                 this.currentTurn.Color = Color.Red;
+                this.currentTurn.ImageSource = Utility.light_piece;
             }
         }
 
         public void ClickPiece(Square cell)
         {
-            if (cell.Piece != null && (Utility.CurrentTurn.Color == cell.Piece.Color) && !Utility.ExtraMove)
+            if (cell != null && (Utility.CurrentTurn.Color == cell.Piece.Color) /*&& !Utility.ExtraMove*/)
             {
-                    //Utility.selectedCell = cell;
+                Utility.selectedCell = cell;
+                Utility.selectedCell.Piece = cell.Piece;
                 DisplayPossibleMoves(cell);
             }
         }
 
         public void MovePiece(Square cell)
         {
-            cell.Piece = Utility.selectedCell.Piece;
-            cell.Piece.Position = cell;
             if (Utility.selectedCell != null && Utility.selectedCell.Piece != null)
             {
-                Utility.selectedCell.Piece = null;
-                Utility.selectedCell = null;
+                cell.Piece = Utility.selectedCell.Piece;
+                cell.Piece.Position = cell;
 
                 if (board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece != null)
                 {
                     board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece = null;
-                    Utility.extraMove = true;
-                    //if (currentTurn.Color == Color.Black)
-                    //{
-                    //    Utility.collectedRedPieces++;
-                    //}
-                    //else
-                    //{
-                    //    Utility.collectedBlackPieces++;
-                    //}
+                    Utility.ExtraMove = true;
+                    if (currentTurn.Color == Color.Black)
+                    {
+                        Utility.collectedRedPieces++;
+                    }
+                    else
+                    {
+                        Utility.collectedBlackPieces++;
+                    }
+                    Utility.selectedCell = cell;
+                    DisplayPossibleMoves(cell);
                 }
                 else
                 {
@@ -82,13 +87,9 @@ namespace WpfGame.Services
                 {
                     square.Highlight = null;
                 }
+
                 Utility.neighbors.Clear();
-                Utility.findPossibleMoves(cell);
-                if (!Utility.extraPath)
-                {
-                    Utility.extraMove = false;
-                    SwitchTurns();
-                }
+                //findPossibleMoves(cell);
 
                 if (cell.Piece.Type == PieceType.Regular)
                 {
@@ -109,17 +110,84 @@ namespace WpfGame.Services
                     GameOver();
                 }
 
-                if(Utility.ExtraMove)
+                //if(Utility.ExtraMove)
+                //{
+                //    //if (currentTurn.Color == Color.Black)
+                //    //{
+                //    //    Utility.collectedRedPieces++;
+                //    //}
+                //    //else
+                //    //{
+                //    //    Utility.collectedBlackPieces++;
+                //    //}
+                //    //Utility.selectedCell = cell;
+                //    //DisplayPossibleMoves(cell);
+                //}
+                Utility.selectedCell.Piece = null;
+                Utility.selectedCell = null;
+            }
+        }
+
+        public void findPossibleMoves(Square cell)
+        {
+            Utility.neighbors.Clear();
+            Utility.ExtraPath = false;
+            int direction;
+            if (cell.Piece != null && cell.Piece.Color == Color.Red) direction = -1;
+            else direction = 1;
+            if (Utility.isInBounds(cell.Row + direction, cell.Column + 1))
+            {
+                if (board[cell.Row + direction][cell.Column + 1].Piece == null)
                 {
-                    if (currentTurn.Color == Color.Black)
-                    {
-                        Utility.collectedRedPieces++;
+                    Utility.neighbors.Add(board[cell.Row + direction][cell.Column + 1]);
+                    board[cell.Row + direction][cell.Column + 1].Highlight = Utility.cell_highlight;
+                }
+                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column + 2) && board[cell.Row + 2 * direction][cell.Column + 2].Piece == null && board[cell.Row + direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
+                {
+                    Utility.neighbors.Add(board[cell.Row + 2 * direction][cell.Column + 2]);
+                    board[cell.Row + 2 * direction][cell.Column + 2].Highlight = Utility.cell_highlight;
+                    Utility.ExtraPath = true;
+                }
+
+            }
+            if (Utility.isInBounds(cell.Row + direction, cell.Column - 1))
+                if (board[cell.Row + direction][cell.Column - 1].Piece == null) { 
+                    Utility.neighbors.Add(board[cell.Row + direction][cell.Column - 1]);
+                    board[cell.Row + direction][cell.Column - 1].Highlight = Utility.cell_highlight;
+                }
+                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column - 2) && board[cell.Row + 2 * direction][cell.Column - 2].Piece == null && board[cell.Row + direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
+                {
+                    Utility.neighbors.Add(board[cell.Row + 2 * direction][cell.Column - 2]);
+                    board[cell.Row + 2 * direction][cell.Column - 2].Highlight = Utility.cell_highlight;
+                    Utility.ExtraPath = true;
+                }
+            if (cell.Piece != null && cell.Piece.Type == PieceType.King)
+            {
+                if (Utility.isInBounds(cell.Row - direction, cell.Column + 1))
+                {
+                    if (board[cell.Row - direction][cell.Column + 1].Piece == null) { 
+                        Utility.neighbors.Add(board[cell.Row + 1][cell.Column + 1]);
+                        board[cell.Row - direction][cell.Column + 1].Highlight = Utility.cell_highlight;
                     }
-                    else
+                else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column + 2) && board[cell.Row - 2 * direction][cell.Column + 2].Piece == null && board[cell.Row - direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
                     {
-                        Utility.collectedBlackPieces++;
+                        Utility.neighbors.Add(board[cell.Row - 2 * direction][cell.Column + 2]);
+                        board[cell.Row - 2 * direction][cell.Column + 2].Highlight = Utility.cell_highlight;
+                    Utility.ExtraPath = true;
                     }
-                    //Utility.findPossibleMoves(cell);
+                }
+                if (Utility.isInBounds(cell.Row - direction, cell.Column - 1))
+                {
+                    if (board[cell.Row - direction][cell.Column - 1].Piece == null) { 
+                        Utility.neighbors.Add(board[cell.Row - direction][cell.Column - 1]);
+                    board[cell.Row - direction][cell.Column - 1].Highlight = Utility.cell_highlight;
+                }
+                else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column - 2) && board[cell.Row - 2 * direction][cell.Column - 2].Piece == null && board[cell.Row - direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
+                    {
+                        Utility.neighbors.Add(board[cell.Row - 2 * direction][cell.Column - 2]);
+                        board[cell.Row - 2 * direction][cell.Column - 2].Highlight = Utility.cell_highlight;
+                        Utility.ExtraPath = true;
+                        }
                 }
             }
         }
@@ -127,40 +195,43 @@ namespace WpfGame.Services
 
         private void DisplayPossibleMoves(Square cell)
         {
-            if (Utility.selectedCell != cell)
+            if (Utility.selectedCell == cell)
             {
-                if (Utility.selectedCell != null)
-                {
+                //if (Utility.selectedCell != null)
+                //{
                     foreach (var square in Utility.neighbors)
                     {
                         square.Highlight = null;
                     }
                     Utility.neighbors.Clear();
-                }
+                //}
 
-                Utility.findPossibleMoves(cell);
+                findPossibleMoves(cell);
                 
-                if (Utility.extraPath)
-                {
-                    //Utility.CurrentNeighbours[square].Piece = null;
-                    foreach (var square in Utility.neighbors)
-                    {
-                        square.Highlight = Utility.cell_highlight;
-                    }
-                    Utility.selectedCell = cell;
-                    Utility.extraPath = false;
-                }
-                else
+                if (Utility.ExtraMove && !Utility.ExtraPath)
                 {
                     Utility.ExtraMove = false;
                     SwitchTurns();
                 }
+                else
+                {
+                    foreach (var square in Utility.neighbors)
+                    {
+                        square.Highlight = Utility.cell_highlight;
+                    }
+
+                    Utility.selectedCell = cell;
+                    Utility.selectedCell.Piece.Position = cell;
+                    Utility.ExtraPath = false;
+                }
             }
             else
             {
+                //findPossibleMoves(cell);
                 foreach (var square in Utility.neighbors)
                 {
-                    board[square.Row][square.Column].Highlight = Utility.cell_highlight;
+                    //board[square.Row][square.Column].Highlight = Utility.cell_highlight;
+                    board[square.Row][square.Column].Highlight = null;
                 }
                 Utility.neighbors.Clear();
                 Utility.selectedCell = null;

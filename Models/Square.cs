@@ -30,8 +30,8 @@ namespace WpfGame.Models
             get { return column; }
             set { column = value; NotifyPropertyChanged("Column"); }
         }
-        private Piece? piece;
-        public Piece? Piece
+        private Piece piece;
+        public Piece Piece
         {
             get { return piece; }
             set { piece = value; NotifyPropertyChanged("Piece"); }

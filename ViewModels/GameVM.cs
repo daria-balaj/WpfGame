@@ -10,7 +10,7 @@ using WpfGame.Services;
 
 namespace WpfGame.ViewModels
 {
-    class GameVM
+    public class GameVM
     {
         public GameLogic logic;
         public GameLogic Logic

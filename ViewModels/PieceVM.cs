@@ -13,7 +13,7 @@ using Color = WpfGame.Models.Color;
 
 namespace WpfGame.ViewModels
 {
-    class PieceVM : BaseNotification
+    public class PieceVM : BaseNotification
     {
         public Piece piece;
         public Color color;
