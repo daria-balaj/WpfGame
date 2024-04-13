@@ -19,7 +19,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Background" Value="#ab0e0e"/>
+            <Setter Property="Background" Value="#b82825"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="16"/>

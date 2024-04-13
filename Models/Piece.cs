@@ -59,6 +59,13 @@ namespace WpfGame.Models
             if (this.color == Color.Black) this.imageSource = Utility.dark_piece;
             else this.imageSource = Utility.light_piece;
         }
+        public Piece(Color color)
+        {
+            this.color = color;
+            this.type = PieceType.Regular;
+            if (this.color == Color.Black) this.imageSource = Utility.dark_piece;
+            else this.imageSource = Utility.light_piece;
+        }
 
         public Piece(Piece other)
         {

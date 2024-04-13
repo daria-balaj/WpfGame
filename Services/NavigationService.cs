@@ -28,6 +28,15 @@ namespace WpfGame.Services
                 case "Statistics":
                     _frame.Content = new StatsPage();
                     break;
+                //case "About":
+                //    Utility.About();
+                //    break;
+                //case "Save":
+                //    //Utility.SaveGame();
+                //    break;
+                //case "Quit":
+                //    _frame.Content = new MenuPage(_frame);
+                //    break;
 
             }
         }

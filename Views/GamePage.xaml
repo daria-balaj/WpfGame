@@ -22,9 +22,33 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <Style x:Key="button" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#b82825"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="8 5"/>
+        </Style>
     </Page.Resources>
 
     <Grid Background="Beige">
+        <StackPanel Orientation="Vertical" Width="100" Height="160" VerticalAlignment="top" HorizontalAlignment="left" Margin="30 30">
+            <!--<Button Style="{StaticResource button}" Content="Quit" Margin="0 5" Command="{Binding Command}" CommandParameter="Quit"/>-->
+            <Button Style="{StaticResource button}" Content="Save Game" Margin="0 5" Command="{Binding SaveGameCommand}" CommandParameter="{Binding modelboard}"/>
+            <Button Style="{StaticResource button}" Content="Help" Margin="0 5" Command="{Binding HelpCommand}" CommandParameter="About"/>
+        </StackPanel>
         <ItemsControl x:Name="Grid" ItemsSource="{Binding Board}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -61,7 +85,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Orientation="Vertical" Margin="870,0,0,0" Width="150" Height="180">
+        <StackPanel Orientation="Vertical" Margin="870,0,0,0" Width="150" Height="580">
             <Label Content="Current turn: " Style="{StaticResource text}" Height="40" FontSize="22" Margin="0 15"/>
             <Image HorizontalAlignment="Center" Height="80" 
            VerticalAlignment="Top" Source="{Binding CurrentTurn.Piece.ImageSource}"/>

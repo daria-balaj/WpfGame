@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -247,7 +248,26 @@ namespace WpfGame.Services
 
         public void GameOver()
         {
-            //todo
+            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
+
+            using (var writer = new StreamWriter(PATH))
+            {
+                if (Utility.collectedRedPieces == 12)
+                {
+                    Utility.blackWins++;
+                    if (12 - Utility.collectedBlackPieces > Utility.maxRemainingPieces)
+                        Utility.maxRemainingPieces = 12 - Utility.collectedBlackPieces;
+                }
+                else
+                {
+                    Utility.redWins++;
+                    if (12 - Utility.collectedRedPieces > Utility.maxRemainingPieces)
+                        Utility.maxRemainingPieces = 12 - Utility.collectedRedPieces;
+                }
+                writer.WriteLine(Utility.redWins);
+                writer.WriteLine(Utility.blackWins);
+                writer.WriteLine(Utility.maxRemainingPieces);
+            }
         }
     }
 }

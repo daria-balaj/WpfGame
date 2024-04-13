@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
+using WpfGame.Commands;
 using WpfGame.Models;
 using WpfGame.Services;
 
@@ -18,15 +20,16 @@ namespace WpfGame.ViewModels
             get { return logic; }
             set { logic = value; }
         }
-        //private readonly NavigationService _navigationService;
+        //private readonly NavigationService ns;
         //private Frame _frame;
         public ObservableCollection<ObservableCollection<SquareVM>> Board { get; set; }
+        public ObservableCollection<ObservableCollection<Square>> modelboard { get; set; }
 
         public PieceVM CurrentTurn { get; set; }
 
         public GameVM() //1
         {
-            ObservableCollection<ObservableCollection<Square>> modelboard = Utility.initializeBoard();
+            this.modelboard = Utility.initializeBoard();
             Piece piece = new Piece(Color.Red, PieceType.Regular);
             this.logic = new GameLogic(modelboard, piece);
             this.Board = BoardVM(modelboard);
@@ -50,6 +53,10 @@ namespace WpfGame.ViewModels
             }
             return result;
         }
+
+        //public ICommand QuitGameCommand => new RelayCommand<string>(Utility.QuitGame());
+        public ICommand SaveGameCommand => new RelayCommand<ObservableCollection<ObservableCollection<Square>>>(Utility.SaveGame);
+        public ICommand HelpCommand => new RelayCommand<string>(Utility.About);
     }
 
 

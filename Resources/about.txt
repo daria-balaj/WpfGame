@@ -1,0 +1,19 @@
+﻿Created by Daria Balaj, student at Transylvania University of Brasov, year II, class 10LF221
+contact: daria.balaj@student.unitbv.ro
+
+Features:
+- local multiplayer
+- save & load game
+- statistics
+
+Rules:
+1. Checkers can only move diagonally on light squares.
+2. The opponent’s checkers can be removed from the board by jumping over them if your checker is diagonal
+to your opponent’s and there is an empty dark space to hop to.
+3. If the space you land on after jumping your opponent’s checker puts you in position to jump another of
+their checkers, you can make a “double jump” in one move. A double jump is when two jumps are made 
+consecutively within a single turn. (The double-jump feature ability can be turned on or off before the
+start of each game)
+4. At the start of the game, checkers can only move forward, meaning toward the opposite player's side.
+5. Checkers may move up and down when they become “kings” by reaching the last row of the opposite side.
+6. The game ends when one of the players is left without any checkers on the checkerboard.
