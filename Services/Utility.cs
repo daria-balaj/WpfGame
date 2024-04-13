@@ -21,7 +21,7 @@ namespace WpfGame.Services
         public static ImageSource brown_square = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\BrownSquare.png");
         public static ImageSource light_piece = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\RedCircle.png");
         public static ImageSource dark_piece = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\BlackCircle.png");
-        public static ImageSource light_king = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\Resources\CrownedBlack.png");
+        public static ImageSource light_king = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\Resources\CrownedRed.png");
         public static ImageSource dark_king = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\CrownedBlack.png");
         public static ImageSource cell_highlight = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\GreenSquare.png");
 

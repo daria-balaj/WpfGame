@@ -15,10 +15,11 @@ namespace WpfGame.Services
 
     public class GameLogic
     {
-        public Piece currentTurn;
+        private Piece currentTurn;
         public Piece CurrentTurn
         {
             get { return this.currentTurn; }
+            set { this.currentTurn = value; }
         }
         private ObservableCollection<ObservableCollection<Square>> board { get; set; }
         public GameLogic(ObservableCollection<ObservableCollection<Square>> board, Piece turn) //last
@@ -59,11 +60,15 @@ namespace WpfGame.Services
         {
             if (Utility.selectedCell != null && Utility.selectedCell.Piece != null)
             {
-                cell.Piece = Utility.selectedCell.Piece;
+                cell.Piece = new Piece(Utility.selectedCell.Piece);
+                //cell.Piece = Utility.selectedCell.Piece;
                 cell.Piece.Position = cell;
+                Utility.selectedCell.Piece = null;
 
                 if (board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece != null)
                 {
+                    //cell.Piece = Utility.selectedCell.Piece;
+                    //cell.Piece.Position = cell;
                     board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece = null;
                     Utility.ExtraMove = true;
                     if (currentTurn.Color == Color.Black)
@@ -91,7 +96,7 @@ namespace WpfGame.Services
                 Utility.neighbors.Clear();
                 //findPossibleMoves(cell);
 
-                if (cell.Piece.Type == PieceType.Regular)
+                if (cell.Piece?.Type == PieceType.Regular)
                 {
                     if (cell.Row == 0 && cell.Piece.Color == Color.Red)
                     {
@@ -123,7 +128,8 @@ namespace WpfGame.Services
                 //    //Utility.selectedCell = cell;
                 //    //DisplayPossibleMoves(cell);
                 //}
-                Utility.selectedCell.Piece = null;
+                
+                //Utility.selectedCell.Piece = null;
                 Utility.selectedCell = null;
             }
         }

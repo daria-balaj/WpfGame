@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVMPairs.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,19 +19,53 @@ namespace WpfGame.Models
         Regular,
         King
     }
-    public class Piece
+    public class Piece : BaseNotification
     {
-        public Square? Position { get; set; }
-        public ImageSource ImageSource { get; set; }
-        public Color Color { get; set; }
-        public PieceType Type { get; set; }
-
+        private Square? position;
+        public Square? Position
+        {
+            get { return this.position; }
+            set { this.position = value; NotifyPropertyChanged(); }
+        }
+        private ImageSource imageSource;
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set { this.imageSource = value; NotifyPropertyChanged(); }
+        }
+        private Color color;
+        public Color Color
+        {
+            get { return this.color; }
+            set 
+            {
+                this.color = value;
+                if (color == Color.Black) { this.imageSource = Utility.dark_piece; }
+                else this.imageSource = Utility.light_piece;
+                NotifyPropertyChanged("Color");
+                NotifyPropertyChanged("ImageSource");
+            }
+        }
+        private PieceType type;
+        public PieceType Type
+        {
+            get { return this.type; }
+            set { this.type = value; NotifyPropertyChanged(); }
+        }
         public Piece(Color color, PieceType type)
         {
-            this.Color = color;
-            this.Type = type;
-            if (this.Color == Color.Black) this.ImageSource = Utility.dark_piece;
-            else this.ImageSource = Utility.light_piece;
+            this.color = color;
+            this.type = type;
+            if (this.color == Color.Black) this.imageSource = Utility.dark_piece;
+            else this.imageSource = Utility.light_piece;
+        }
+
+        public Piece(Piece other)
+        {
+            this.Position = other.Position;
+            this.ImageSource = other.ImageSource;
+            this.Color = other.Color;
+            this.Type = other.Type;
         }
     }
 }

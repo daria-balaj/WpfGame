@@ -64,7 +64,7 @@
         <StackPanel Orientation="Vertical" Margin="870,0,0,0" Width="150" Height="180">
             <Label Content="Current turn: " Style="{StaticResource text}" Height="40" FontSize="22" Margin="0 15"/>
             <Image HorizontalAlignment="Center" Height="80" 
-           VerticalAlignment="Top" Source="{Binding CurrentTurn.ImageSource}"/>
+           VerticalAlignment="Top" Source="{Binding CurrentTurn.Piece.ImageSource}"/>
         </StackPanel>
     </Grid>
 </Page>
