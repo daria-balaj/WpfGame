@@ -64,12 +64,17 @@ namespace WpfGame.Services
             if (Utility.selectedCell != null && Utility.selectedCell.Piece != null)
             {
                 cell.Piece = new Piece(Utility.selectedCell.Piece);
-                //cell.Piece = Utility.selectedCell.Piece;
                 cell.Piece.Position = cell;
-                //Utility.selectedCell.Piece = null;
+                Utility.selectedCell.Piece = null;
+                //cell.Piece = Utility.selectedCell.Piece;
 
-                if (board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece != null)
-                {
+                int capturedRow = (Utility.selectedCell.Row + cell.Row) / 2;
+                int capturedColumn = (Utility.selectedCell.Column + cell.Column) / 2;
+                int rowDifference = Math.Abs(cell.Row - Utility.selectedCell.Row);
+                int colDifference = Math.Abs(cell.Column - Utility.selectedCell.Column);
+
+                if (rowDifference == 2 && colDifference == 2 && board[capturedRow][capturedColumn].Piece != null && board[capturedRow][capturedColumn].Piece.Color != cell.Piece.Color)
+                { 
                     //cell.Piece = Utility.selectedCell.Piece;
                     //cell.Piece.Position = cell;
                     board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece = null;
@@ -83,6 +88,7 @@ namespace WpfGame.Services
                         Utility.collectedBlackPieces++;
                     }
                     Utility.selectedCell = cell;
+                    Utility.selectedCell.Piece = new Piece(cell.Piece);
                     DisplayPossibleMoves(cell);
                 }
                 else
@@ -97,6 +103,8 @@ namespace WpfGame.Services
                 }
 
                 Utility.neighbors.Clear();
+                //Utility.selectedCell.Piece = null;
+                Utility.selectedCell = null;
                 //findPossibleMoves(cell);
 
                 if (cell.Piece?.Type == PieceType.Regular)
@@ -117,23 +125,6 @@ namespace WpfGame.Services
                 {
                     GameOver();
                 }
-
-                //if(Utility.ExtraMove)
-                //{
-                //    //if (currentTurn.Color == Color.Black)
-                //    //{
-                //    //    Utility.collectedRedPieces++;
-                //    //}
-                //    //else
-                //    //{
-                //    //    Utility.collectedBlackPieces++;
-                //    //}
-                //    //Utility.selectedCell = cell;
-                //    //DisplayPossibleMoves(cell);
-                //}
-                
-                //Utility.selectedCell.Piece = null;
-                Utility.selectedCell = null;
             }
         }
 
@@ -175,7 +166,7 @@ namespace WpfGame.Services
                 if (Utility.isInBounds(cell.Row - direction, cell.Column + 1))
                 {
                     if (board[cell.Row - direction][cell.Column + 1].Piece == null) { 
-                        Utility.neighbors.Add(board[cell.Row + 1][cell.Column + 1]);
+                        Utility.neighbors.Add(board[cell.Row - direction][cell.Column + 1]);
                         board[cell.Row - direction][cell.Column + 1].Highlight = Utility.cell_highlight;
                     }
                 else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column + 2) && board[cell.Row - 2 * direction][cell.Column + 2].Piece == null && board[cell.Row - direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
@@ -248,10 +239,13 @@ namespace WpfGame.Services
             
         }
 
-        public void LoadGame()
-        {
-
-        }
+        //public (ObservableCollection<ObservableCollection<Square>>, Piece) LoadGame()
+        //{
+        //    (ObservableCollection<ObservableCollection<Square>>, Piece) pair = Utility.LoadGame();
+        //    this.currentTurn.ImageSource = Utility.currentTurn.ImageSource;
+        //    this.currentTurn.Color = Utility.currentTurn.Color;
+        //    return pair;
+        //}
 
         public void GameOver()
         {
@@ -281,13 +275,13 @@ namespace WpfGame.Services
 
             if (result == MessageBoxResult.OK)
             {
-                // Close the current window
-                Window currentWindow = Application.Current.MainWindow;
-                currentWindow.Close();
+                //Window currentWindow = Application.Current.MainWindow;
+                //currentWindow.Close();
 
-                // Open a new instance of MainWindow
-                MainWindow newMainWindow = new MainWindow();
-                newMainWindow.Show();
+                //MainWindow newMainWindow = new MainWindow();
+                //newMainWindow.Show();
+                Frame _frame = (Application.Current.MainWindow.Content as Frame);
+                _frame.NavigationService.GoBack();
             }
         }
     }

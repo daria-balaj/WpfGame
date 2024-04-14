@@ -13,6 +13,7 @@ namespace WpfGame.Services
     public class NavigationService
     {
         private Frame _frame;
+        private GameLogic _logic;
 
         public NavigationService(Frame frame)
         {

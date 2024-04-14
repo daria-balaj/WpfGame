@@ -30,9 +30,7 @@ namespace WpfGame.Services
         public const int boardSize = 8; 
         public static int collectedRedPieces = 0;
         public static int collectedBlackPieces = 0;
-        //public static Color currentTurn = Color.Red;
         public static Piece currentTurn = new Piece(Color.Red, PieceType.Regular);
-        //public static ObservableCollection<ObservableCollection<Square>> board = new ObservableCollection<ObservableCollection<Square>>();
         public static List<Square> neighbors = new List<Square>();
         public static Square selectedCell { get; set; }
 
@@ -139,6 +137,7 @@ namespace WpfGame.Services
                 {
                     writer.Write(NO_PIECE);
                 }
+                writer.WriteLine();
                 if (ExtraPath)
                 {
                     writer.Write(ExtraPath);
@@ -147,6 +146,7 @@ namespace WpfGame.Services
                 {
                     writer.Write(NO_PIECE);
                 }
+                writer.WriteLine();
                 //TO_DO_MULTI_JUMP
                 if (currentTurn.Color == Color.Red)
                 {
@@ -176,7 +176,7 @@ namespace WpfGame.Services
                             case { } when square.Piece.Color == Color.Black && square.Piece.Type == PieceType.King:
                                 writer.Write(BLACK_KING);
                                 break;
-                            case { } when currentTurn.Color == Color.Red && square.Piece.Type == PieceType.King:
+                            case { } when square.Piece.Color == Color.Red && square.Piece.Type == PieceType.King:
                                 writer.Write(RED_KING);
                                 break;
                             default:
@@ -221,44 +221,61 @@ namespace WpfGame.Services
                 {
                     Utility.CurrentTurn.Color = Color.Red;
                     Utility.CurrentTurn.ImageSource = Utility.light_piece;
-                    this.currentTurn.Color = Color.Red;
-                    this.currentTurn.ImageSource = Utility.light_piece;
                 }
                 else
                 {
-                    currentTurn.Color = Color.Black;
-                    currentTurn.ImageSource = dark_piece;
+                    Utility.CurrentTurn.Color = Color.Black;
+                    Utility.CurrentTurn.ImageSource = dark_piece;
                 }
-                //board
                 for (int i = 0; i < boardSize; i++)
                 {
+                    board.Add(new ObservableCollection<Square>());
                     text = reader.ReadLine();
                     for (int j = 0; j < boardSize; j++)
                     {
-                        board[i][j].Highlight = null;
+                        //board[i][j].Highlight = null;
                         switch (text[j])
                         {
                             case { } when text[j] == NO_PIECE:
-                                board[i][j].Piece = null;
+                                if ((i + j) % 2 == 0)
+                                {
+                                    board[i].Add(new Square(i, j, SquareColor.Brown, null));
+                                }
+                                else board[i].Add(new Square(i, j, SquareColor.Beige, null));
                                 break;
                             case { } when text[j] == RED_PIECE:
-                                board[i][j].Piece = new Piece(Color.Red, PieceType.Regular);
-                                board[i][j].Piece.Position = board[i][j];
-                                //to_DO
+                                if ((i + j) % 2 == 0)
+                                {
+                                    board[i].Add(new Square(i, j, SquareColor.Brown, new Piece(Color.Red)));
+                                }
+                                else board[i].Add(new Square(i, j, SquareColor.Beige, new Piece(Color.Red)));
+                                //board[i][j].Piece.Position = board[i][j];
                                 break;
                             case { } when text[j] == RED_KING:
-                                board[i][j].Piece = new Piece(Color.Red, PieceType.King);
-                                board[i][j].Piece.Position = board[i][j];
-
-                                //todo
+                                if ((i + j) % 2 == 0)
+                                {
+                                    board[i].Add(new Square(i, j, SquareColor.Brown, new Piece(Color.Red, PieceType.King)));
+                                }
+                                else
+                                    board[i].Add(new Square(i, j, SquareColor.Beige, new Piece(Color.Red, PieceType.King)));
+                                //board[i][j].Piece.Position = board[i][j];
                                 break;
                             case { } when text[j] == BLACK_PIECE:
-                                board[i][j].Piece = new Piece(Color.Black, PieceType.Regular);
-                                board[i][j].Piece.Position = board[i][j];
+                                if ((i + j) % 2 == 0)
+                                {
+                                    board[i].Add(new Square(i, j, SquareColor.Brown, new Piece(Color.Black)));
+                                }
+                                else board[i].Add(new Square(i, j, SquareColor.Beige, new Piece(Color.Black)));
+                                //board[i][j].Piece.Position = board[i][j];
                                 break;
                             case { } when text[j] == BLACK_KING:
-                                board[i][j].Piece = new Piece(Color.Black, PieceType.King);
-                                board[i][j].Piece.Position = board[i][j];
+                                if ((i + j) % 2 == 0)
+                                {
+                                    board[i].Add(new Square(i, j, SquareColor.Brown, new Piece(Color.Black, PieceType.King)));
+                                }
+                                else
+                                    board[i].Add(new Square(i, j, SquareColor.Beige, new Piece(Color.Black, PieceType.King)));
+                                //board[i][j].Piece.Position = board[i][j];
                                 break;
                         }
                     }
