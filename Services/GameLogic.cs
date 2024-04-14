@@ -63,7 +63,8 @@ namespace WpfGame.Services
         {
             if (Utility.selectedCell != null && Utility.selectedCell.Piece != null)
             {
-                cell.Piece = new Piece(Utility.selectedCell.Piece);
+                //cell.Piece = new Piece(Utility.selectedCell.Piece);
+                cell.Piece = Utility.selectedCell.Piece;
                 cell.Piece.Position = cell;
                 Utility.selectedCell.Piece = null;
 
@@ -94,7 +95,8 @@ namespace WpfGame.Services
                         if (Utility.IsDoubleJumpPossible)
                         {
                             Utility.selectedCell = cell;
-                            Utility.selectedCell.Piece = new Piece(cell.Piece);
+                            //Utility.selectedCell.Piece = new Piece(cell.Piece);
+                            Utility.selectedCell.Piece = cell.Piece;
                             return;
                         }
                         SwitchTurns();

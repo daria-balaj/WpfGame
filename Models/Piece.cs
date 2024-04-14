@@ -70,7 +70,7 @@ namespace WpfGame.Models
         public Piece(Piece other)
         {
             this.Position = other.Position;
-            this.ImageSource = other.ImageSource;
+            this.imageSource = other.imageSource;
             this.Color = other.Color;
             this.Type = other.Type;
         }
