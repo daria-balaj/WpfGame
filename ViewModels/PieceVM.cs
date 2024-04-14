@@ -16,33 +16,12 @@ namespace WpfGame.ViewModels
     public class PieceVM : BaseNotification
     {
         public Piece piece;
-        //public Color color;
-        //public ImageSource imageSource;
 
         public Piece Piece
         {
             get { return this.piece; }
             set { this.piece = value; NotifyPropertyChanged(); }
         }
-
-        //public Color Color
-        //{
-        //    get { return this.color; }
-        //    set { 
-        //        this.color = value;
-        //        if (color == Color.Black) { this.imageSource = Utility.dark_piece; }
-        //        else this.imageSource = Utility.light_piece;
-        //        NotifyPropertyChanged("Color");
-        //        NotifyPropertyChanged("ImageSource");
-        //    }
-        //}
-
-        //public ImageSource ImageSource
-        //{  
-        //    get { return this.imageSource; }
-        //    set { imageSource = value; NotifyPropertyChanged("ImageSource"); }
-
-        //}
 
         public PieceVM(Piece piece)
         {

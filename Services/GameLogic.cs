@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfGame.Models;
 using WpfGame.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
+using Application = System.Windows.Application;
 
 namespace WpfGame.Services
 {
@@ -64,7 +66,7 @@ namespace WpfGame.Services
                 cell.Piece = new Piece(Utility.selectedCell.Piece);
                 //cell.Piece = Utility.selectedCell.Piece;
                 cell.Piece.Position = cell;
-                Utility.selectedCell.Piece = null;
+                //Utility.selectedCell.Piece = null;
 
                 if (board[(Utility.selectedCell.Row + cell.Row) / 2][(Utility.selectedCell.Column + cell.Column) / 2].Piece != null)
                 {
@@ -246,20 +248,27 @@ namespace WpfGame.Services
             
         }
 
+        public void LoadGame()
+        {
+
+        }
+
         public void GameOver()
         {
             string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
-
+            string winner;
             using (var writer = new StreamWriter(PATH))
             {
                 if (Utility.collectedRedPieces == 12)
                 {
+                    winner = "Player 2";
                     Utility.blackWins++;
                     if (12 - Utility.collectedBlackPieces > Utility.maxRemainingPieces)
                         Utility.maxRemainingPieces = 12 - Utility.collectedBlackPieces;
                 }
                 else
                 {
+                    winner = "Player 1";
                     Utility.redWins++;
                     if (12 - Utility.collectedRedPieces > Utility.maxRemainingPieces)
                         Utility.maxRemainingPieces = 12 - Utility.collectedRedPieces;
@@ -267,6 +276,18 @@ namespace WpfGame.Services
                 writer.WriteLine(Utility.redWins);
                 writer.WriteLine(Utility.blackWins);
                 writer.WriteLine(Utility.maxRemainingPieces);
+            }
+            MessageBoxResult result = MessageBox.Show(winner + " won!", "Game over", MessageBoxButton.OK);
+
+            if (result == MessageBoxResult.OK)
+            {
+                // Close the current window
+                Window currentWindow = Application.Current.MainWindow;
+                currentWindow.Close();
+
+                // Open a new instance of MainWindow
+                MainWindow newMainWindow = new MainWindow();
+                newMainWindow.Show();
             }
         }
     }

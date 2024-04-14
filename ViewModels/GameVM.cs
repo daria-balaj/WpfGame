@@ -38,6 +38,15 @@ namespace WpfGame.ViewModels
             //_frame = frame;
         }
 
+        public GameVM((ObservableCollection<ObservableCollection<Square>>, Piece) pair)
+        {
+            this.modelboard = pair.Item1;
+            Piece piece = pair.Item2;
+            this.logic = new GameLogic(modelboard, piece);
+            this.Board = BoardVM(modelboard);
+            this.CurrentTurn = new PieceVM(piece);
+        }
+
         private ObservableCollection<ObservableCollection<SquareVM>> BoardVM(ObservableCollection<ObservableCollection<Square>> board) //2
         {
             ObservableCollection<ObservableCollection<SquareVM>> result = new ObservableCollection<ObservableCollection<SquareVM>>();
@@ -54,7 +63,7 @@ namespace WpfGame.ViewModels
             return result;
         }
 
-        //public ICommand QuitGameCommand => new RelayCommand<string>(Utility.QuitGame());
+        //public ICommand QuitGameCommand => new RelayCommand<string>(Utility.QuitGame);
         public ICommand SaveGameCommand => new RelayCommand<ObservableCollection<ObservableCollection<Square>>>(Utility.SaveGame);
         public ICommand HelpCommand => new RelayCommand<string>(Utility.About);
     }

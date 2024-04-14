@@ -36,7 +36,7 @@ namespace WpfGame.Services
         public static List<Square> neighbors = new List<Square>();
         public static Square selectedCell { get; set; }
 
-
+        public static int maxRemainingPieces = 0, redWins = 0, blackWins = 0;
 
         public static Piece CurrentTurn
         {
@@ -131,8 +131,6 @@ namespace WpfGame.Services
             var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
             using (var writer = new StreamWriter(path))
             {
-                writer.WriteLine(extraMove);
-                writer.WriteLine();
                 if (ExtraMove)
                 {
                     writer.Write(HAD_COMBO);
@@ -141,7 +139,6 @@ namespace WpfGame.Services
                 {
                     writer.Write(NO_PIECE);
                 }
-                writer.WriteLine();
                 if (ExtraPath)
                 {
                     writer.Write(ExtraPath);
@@ -150,7 +147,6 @@ namespace WpfGame.Services
                 {
                     writer.Write(NO_PIECE);
                 }
-                writer.WriteLine();
                 //TO_DO_MULTI_JUMP
                 if (currentTurn.Color == Color.Red)
                 {
@@ -193,7 +189,7 @@ namespace WpfGame.Services
             }
         }
 
-        public static void LoadGame()
+        public static (ObservableCollection<ObservableCollection<Square>>, Piece) LoadGame()
         {
             //var path = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\save.txt";
             var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
@@ -223,8 +219,10 @@ namespace WpfGame.Services
                 text = reader.ReadLine();
                 if (text == RED_TURN.ToString())
                 {
-                    currentTurn.Color = Color.Red;
-                    currentTurn.ImageSource = light_piece;
+                    Utility.CurrentTurn.Color = Color.Red;
+                    Utility.CurrentTurn.ImageSource = Utility.light_piece;
+                    this.currentTurn.Color = Color.Red;
+                    this.currentTurn.ImageSource = Utility.light_piece;
                 }
                 else
                 {
@@ -267,7 +265,21 @@ namespace WpfGame.Services
                 }
 
                 neighbors.Clear();
+                return (board, CurrentTurn);
+            }
+        }
 
+        public static void Statistics(string s)
+        {
+            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
+
+            using (var reader = new StreamReader(PATH))
+            {
+                Utility.redWins = int.Parse(reader.ReadLine());
+                blackWins = int.Parse(reader.ReadLine());
+                maxRemainingPieces = int.Parse(reader.ReadLine());
+                string text = "Number of Player 1 wins: " + redWins + "\n Number of Player 2 wins: " + blackWins + "\n Record of remaining pieces on board: " + maxRemainingPieces;
+                MessageBox.Show(text, "Statistics", MessageBoxButton.OK);
             }
         }
 
@@ -281,25 +293,13 @@ namespace WpfGame.Services
             }
         }
 
-        public static int maxRemainingPieces = 0, redWins = 0, blackWins = 0;
-
-        public static void Statistics(string s)
-        {
-            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
-
-            using (var reader = new StreamReader(PATH))
-            {
-                redWins = int.Parse(reader.ReadLine());
-                blackWins = int.Parse(reader.ReadLine());
-                maxRemainingPieces = int.Parse(reader.ReadLine());
-                string text = "Number of Player 1 wins: " + redWins + "\n Number of Player 2 wins: " + blackWins + "\n Record of remaining pieces on board: " + maxRemainingPieces;
-                MessageBox.Show(text, "Statistics", MessageBoxButton.OK);
-            }
-        }
-
-        //internal static Action<string> QuitGame()
+        //public static void QuitGame(string s)
         //{
-        //    //return 
+        //    Window currentWindow = Application.Current.MainWindow;
+        //    currentWindow.Close();
+
+        //    MainWindow newMainWindow = new MainWindow();
+        //    newMainWindow.Show();
         //}
     }
 }

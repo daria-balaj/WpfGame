@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using WpfGame.ViewModels;
 using WpfGame.Views;
 
 namespace WpfGame.Services
@@ -24,20 +25,20 @@ namespace WpfGame.Services
             {
                 case "NewGame":
                     _frame.Content = new GamePage();
-                    break;  
+                    break;
+
+                case "LoadGame":
+                    GameVM gameVM = new GameVM(Utility.LoadGame());
+
+                    GamePage gamePage = new GamePage();
+                    gamePage.DataContext = gameVM;
+
+                    _frame.Content = gamePage;
+                    break;
+
                 case "Statistics":
                     _frame.Content = new StatsPage();
                     break;
-                //case "About":
-                //    Utility.About();
-                //    break;
-                //case "Save":
-                //    //Utility.SaveGame();
-                //    break;
-                //case "Quit":
-                //    _frame.Content = new MenuPage(_frame);
-                //    break;
-
             }
         }
 

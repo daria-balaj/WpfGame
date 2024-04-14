@@ -1,4 +1,4 @@
-﻿Created by Daria Balaj, student at Transylvania University of Brasov, year II, class 10LF221
+﻿Created by Daria Balaj, student at Transilvania University of Brasov, year II, class 10LF221
 contact: daria.balaj@student.unitbv.ro
 
 Features:

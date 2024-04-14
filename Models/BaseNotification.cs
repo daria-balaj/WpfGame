@@ -6,6 +6,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+//fix pieces disappearing
+//fix score counting
+//fix load game
+//fix crown disappearing
+
 namespace MVVMPairs.Models
 {
     public class BaseNotification : INotifyPropertyChanged

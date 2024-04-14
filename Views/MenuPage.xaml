@@ -45,8 +45,8 @@
             <Label Style="{StaticResource text}" Content="Checkers" Margin="0 40" Height="75" Width="auto" FontSize="48"/>
             <CheckBox Content="Allow multiple jumps" Margin="0 5" FontSize="20"/>
             <Button Style="{StaticResource button}" Content="New Game" Margin="0 5" Command="{Binding NavigateToPageCommand}" CommandParameter="NewGame"/>
-            <Button Style="{StaticResource button}" Content="Load" />
-            <Button Style="{StaticResource button}" Content="Statistics" Margin="0 5" Command="{Binding NavigateToPageCommand}" CommandParameter="Statistics"/>
+            <Button Style="{StaticResource button}" Content="Load" Command="{Binding NavigateToPageCommand}" CommandParameter="LoadGame"/>
+            <Button Style="{StaticResource button}" Content="Statistics" Margin="0 5" Command="{Binding StatisticsCommand}" CommandParameter="Statistics"/>
             <Button Style="{StaticResource button}" Content="Help"/>
         </StackPanel>
     </Grid>

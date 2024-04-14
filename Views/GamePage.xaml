@@ -40,6 +40,12 @@
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Padding" Value="8 5"/>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#57100f"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Page.Resources>
 
