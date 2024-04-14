@@ -32,6 +32,8 @@ namespace WpfGame.Services
         public static int collectedBlackPieces = 0;
         public static Piece currentTurn = new Piece(Color.Red, PieceType.Regular);
         public static List<Square> neighbors = new List<Square>();
+        private static bool allowDoubleJump;
+        private static bool isDoubleJumpPossible;
         public static Square selectedCell { get; set; }
 
         public static int maxRemainingPieces = 0, redWins = 0, blackWins = 0;
@@ -53,17 +55,15 @@ namespace WpfGame.Services
             set { collectedBlackPieces = value; }
         }
 
-        private static bool extraMove = false;
-        public static bool ExtraMove
+        public static bool AllowDoubleJump
         {
-            get { return extraMove; }
-            set { extraMove = value; }
+            get { return allowDoubleJump; }
+            set { allowDoubleJump = value; }
         }
-        private static bool extraPath = false;
-        public static bool ExtraPath
+        public static bool IsDoubleJumpPossible
         {
-            get { return extraPath; }
-            set { extraPath = value; }
+            get { return isDoubleJumpPossible; }
+            set { isDoubleJumpPossible = value; }
         }
 
         public static bool isInBounds(int row, int column)
@@ -129,25 +129,15 @@ namespace WpfGame.Services
             //var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
             using (var writer = new StreamWriter(path))
             {
-                if (ExtraMove)
+                if (allowDoubleJump)
                 {
-                    writer.Write(HAD_COMBO);
+                    writer.Write(1);
                 }
                 else
                 {
-                    writer.Write(NO_PIECE);
+                    writer.Write(0);
                 }
                 writer.WriteLine();
-                if (ExtraPath)
-                {
-                    writer.Write(ExtraPath);
-                }
-                else
-                {
-                    writer.Write(NO_PIECE);
-                }
-                writer.WriteLine();
-                //TO_DO_MULTI_JUMP
                 if (currentTurn.Color == Color.Red)
                 {
                     writer.Write(RED_TURN);
@@ -200,24 +190,14 @@ namespace WpfGame.Services
             {
                 string text;
                 text = reader.ReadLine();
-                if (text != NO_PIECE.ToString())
+                if (text == "1")
                 {
-                    ExtraMove = true;
+                    allowDoubleJump = true;
                 }
                 else
                 {
-                    ExtraMove = false;
+                    allowDoubleJump = false;
                 }
-                text = reader.ReadLine();
-                if (text != NO_PIECE.ToString())
-                {
-                    ExtraPath = true;
-                }
-                else
-                {
-                    ExtraPath = false;
-                }
-                //to_do_multi_JUMP
                 text = reader.ReadLine();
                 if (text == RED_TURN.ToString())
                 {
@@ -314,13 +294,5 @@ namespace WpfGame.Services
             }
         }
 
-        //public static void QuitGame(string s)
-        //{
-        //    Window currentWindow = Application.Current.MainWindow;
-        //    currentWindow.Close();
-
-        //    MainWindow newMainWindow = new MainWindow();
-        //    newMainWindow.Show();
-        //}
     }
 }

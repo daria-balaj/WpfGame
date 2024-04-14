@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVMPairs.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,13 +15,28 @@ using NavigationService = WpfGame.Services.NavigationService;
 
 namespace WpfGame.ViewModels
 {
-    internal class MenuPageVM
+    internal class MenuPageVM : BaseNotification
     {
         public NavigationService _navService { get; }
 
+
+        private bool allowDubleJump;
+        public bool AllowDubleJump
+        {
+            get { return this.allowDubleJump; }
+            set
+            {
+                if (allowDubleJump != value)
+                {
+                    allowDubleJump = value;
+                    NotifyPropertyChanged("allowMultipleCaptures");
+                }
+            }
+        }
         public MenuPageVM(NavigationService ns)
         {
             _navService = ns;
+            allowDubleJump = false;
         }
 
         public ICommand NavigateToPageCommand => new RelayCommand<string>(NavigateToPage);

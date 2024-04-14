@@ -6,9 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-//fix pieces disappearing
-//fix score counting
-//fix load game
+//modify save & load for allowMultippleCaptures
 //fix crown disappearing
 
 namespace MVVMPairs.Models
