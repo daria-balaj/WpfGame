@@ -25,7 +25,7 @@ namespace WpfGame
             NavigationService = new NavigationService(Frame);
             Frame.Navigate(new MenuPage(this.Frame));
             GameVM _gameVM = new GameVM();
-            this.DataContext = _gameVM.Board;
+            this.DataContext = _gameVM;
         }
     }
 }

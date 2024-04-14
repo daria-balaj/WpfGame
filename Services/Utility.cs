@@ -19,13 +19,13 @@ namespace WpfGame.Services
 {
     public class Utility
     {
-        public static ImageSource beige_square = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\BeigeSquare.jpg");
-        public static ImageSource brown_square = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\BrownSquare.png");
-        public static ImageSource light_piece = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\RedCircle.png");
-        public static ImageSource dark_piece = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\BlackCircle.png");
-        public static ImageSource light_king = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\Resources\CrownedRed.png");
-        public static ImageSource dark_king = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\CrownedBlack.png");
-        public static ImageSource cell_highlight = ConvertStringToImageSource(@"C:\Users\sorin\source\repos\WpfGame\\Resources\GreenSquare.png");
+        public static ImageSource beige_square = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\\Resources\BeigeSquare.jpg");
+        public static ImageSource brown_square = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\Resources\BrownSquare.png");
+        public static ImageSource light_piece = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\\Resources\RedCircle.png");
+        public static ImageSource dark_piece = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\\Resources\BlackCircle.png");
+        public static ImageSource light_king = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\Resources\CrownedRed.png");
+        public static ImageSource dark_king = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\\Resources\CrownedBlack.png");
+        public static ImageSource cell_highlight = ConvertStringToImageSource(@"C:\Users\daria\source\repos\MAP\WpfGame\\Resources\GreenSquare.png");
 
         public const int boardSize = 8; 
         public static int collectedRedPieces = 0;
@@ -125,8 +125,8 @@ namespace WpfGame.Services
 
         public static void SaveGame(ObservableCollection<ObservableCollection<Square>> board)
         {
-            //var path = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\save.txt";
-            var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
+            var path = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\save.txt";
+            //var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
             using (var writer = new StreamWriter(path))
             {
                 if (ExtraMove)
@@ -185,14 +185,16 @@ namespace WpfGame.Services
                     }
                     writer.WriteLine();
                 }
+                writer.WriteLine(collectedRedPieces);
+                writer.WriteLine(collectedBlackPieces);
                 //writer.Write("-");
             }
         }
 
         public static (ObservableCollection<ObservableCollection<Square>>, Piece) LoadGame()
         {
-            //var path = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\save.txt";
-            var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
+            var path = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\save.txt";
+            //var path = @"C:\Users\sorin\source\repos\WpfGame\Resources\save.txt";
             ObservableCollection<ObservableCollection<Square>> board = new ObservableCollection<ObservableCollection<Square>>();
             using (var reader = new StreamReader(path))
             {
@@ -280,6 +282,8 @@ namespace WpfGame.Services
                         }
                     }
                 }
+                Utility.collectedRedPieces = int.Parse(reader.ReadLine());
+                Utility.collectedBlackPieces = int.Parse(reader.ReadLine());
 
                 neighbors.Clear();
                 return (board, CurrentTurn);
@@ -288,21 +292,21 @@ namespace WpfGame.Services
 
         public static void Statistics(string s)
         {
-            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
+            string PATH = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\stats.txt";
 
             using (var reader = new StreamReader(PATH))
             {
                 Utility.redWins = int.Parse(reader.ReadLine());
                 blackWins = int.Parse(reader.ReadLine());
                 maxRemainingPieces = int.Parse(reader.ReadLine());
-                string text = "Number of Player 1 wins: " + redWins + "\n Number of Player 2 wins: " + blackWins + "\n Record of remaining pieces on board: " + maxRemainingPieces;
+                string text = "Number of Player 1 wins: " + redWins + "\nNumber of Player 2 wins: " + blackWins + "\nRecord of remaining pieces on board: " + maxRemainingPieces;
                 MessageBox.Show(text, "Statistics", MessageBoxButton.OK);
             }
         }
 
         public static void About(string s)
         {
-            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\about.txt";
+            string PATH = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\about.txt";
 
             using (var reader = new StreamReader(PATH))
             {

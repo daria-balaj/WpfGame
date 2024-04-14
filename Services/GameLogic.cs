@@ -249,7 +249,7 @@ namespace WpfGame.Services
 
         public void GameOver()
         {
-            string PATH = @"C:\Users\sorin\source\repos\WpfGame\Resources\stats.txt";
+            string PATH = @"C:\Users\daria\source\repos\MAP\WpfGame\Resources\stats.txt";
             string winner;
             using (var writer = new StreamWriter(PATH))
             {
@@ -275,13 +275,9 @@ namespace WpfGame.Services
 
             if (result == MessageBoxResult.OK)
             {
-                //Window currentWindow = Application.Current.MainWindow;
-                //currentWindow.Close();
-
-                //MainWindow newMainWindow = new MainWindow();
-                //newMainWindow.Show();
-                Frame _frame = (Application.Current.MainWindow.Content as Frame);
-                _frame.NavigationService.GoBack();
+                Frame _frame = ((MainWindow)Application.Current.MainWindow).Frame;
+                if (_frame != null)
+                    _frame.NavigationService.GoBack();
             }
         }
     }
