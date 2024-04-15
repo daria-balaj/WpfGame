@@ -47,7 +47,7 @@
             <Button Style="{StaticResource button}" Content="New Game" Margin="0 5" Command="{Binding NavigateToPageCommand}" CommandParameter="NewGame"/>
             <Button Style="{StaticResource button}" Content="Load" Command="{Binding NavigateToPageCommand}" CommandParameter="LoadGame"/>
             <Button Style="{StaticResource button}" Content="Statistics" Margin="0 5" Command="{Binding StatisticsCommand}" CommandParameter="Statistics"/>
-            <Button Style="{StaticResource button}" Content="Help"/>
+            <Button Style="{StaticResource button}" Content="Help" Command="{Binding HelpCommand}" CommandParameter="About"/>
         </StackPanel>
     </Grid>
 </Page>

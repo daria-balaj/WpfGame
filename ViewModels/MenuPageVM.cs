@@ -41,6 +41,7 @@ namespace WpfGame.ViewModels
 
         public ICommand NavigateToPageCommand => new RelayCommand<string>(NavigateToPage);
         public ICommand StatisticsCommand => new RelayCommand<string>(ShowStatistics);
+        public ICommand HelpCommand => new RelayCommand<string>(Utility.About);
 
         private void NavigateToPage(string page)
         {

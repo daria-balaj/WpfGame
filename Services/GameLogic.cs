@@ -141,8 +141,11 @@ namespace WpfGame.Services
             Utility.neighbors.Clear();
             Utility.IsDoubleJumpPossible = false;
             int direction;
+            //if (cell.Piece != null && cell.Piece.Color == Color.Red) direction = -1;
+            //else direction = 1;
             if (cell.Piece != null && cell.Piece.Color == Color.Red) direction = -1;
-            else direction = 1;
+            else if (cell.Piece != null && cell.Piece.Color == Color.Black) direction = 1;
+            else return;
             if (Utility.isInBounds(cell.Row + direction, cell.Column + 1))
             {
                 if (board[cell.Row + direction][cell.Column + 1].Piece == null && !doubleJump)
@@ -150,7 +153,7 @@ namespace WpfGame.Services
                     Utility.neighbors.Add(board[cell.Row + direction][cell.Column + 1]);
                     board[cell.Row + direction][cell.Column + 1].Highlight = Utility.cell_highlight;
                 }
-                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column + 2) && board[cell.Row + 2 * direction][cell.Column + 2].Piece == null && Utility.isInBounds(cell.Row+direction, cell.Column + 1) && board[cell.Row + direction][cell.Column + 1].Piece.Color != cell.Piece?.Color)
+                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column + 2) && board[cell.Row + 2 * direction][cell.Column + 2].Piece == null && board[cell.Row + direction][cell.Column + 1].Piece != null && board[cell.Row + direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
                 {
                     Utility.neighbors.Add(board[cell.Row + 2 * direction][cell.Column + 2]);
                     board[cell.Row + 2 * direction][cell.Column + 2].Highlight = Utility.cell_highlight;
@@ -163,7 +166,7 @@ namespace WpfGame.Services
                     Utility.neighbors.Add(board[cell.Row + direction][cell.Column - 1]);
                     board[cell.Row + direction][cell.Column - 1].Highlight = Utility.cell_highlight;
                 }
-                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column - 2) && board[cell.Row + 2 * direction][cell.Column - 2].Piece == null && board[cell.Row + direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
+                else if (Utility.isInBounds(cell.Row + 2 * direction, cell.Column - 2) && board[cell.Row + 2 * direction][cell.Column - 2].Piece == null && board[cell.Row + direction][cell.Column - 1].Piece != null && board[cell.Row + direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
                 {
                     Utility.neighbors.Add(board[cell.Row + 2 * direction][cell.Column - 2]);
                     board[cell.Row + 2 * direction][cell.Column - 2].Highlight = Utility.cell_highlight;
@@ -178,7 +181,7 @@ namespace WpfGame.Services
                         Utility.neighbors.Add(board[cell.Row - direction][cell.Column + 1]);
                         board[cell.Row - direction][cell.Column + 1].Highlight = Utility.cell_highlight;
                     }
-                    else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column + 2) && board[cell.Row - 2 * direction][cell.Column + 2].Piece == null && board[cell.Row - direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
+                    else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column + 2) && board[cell.Row - 2 * direction][cell.Column + 2].Piece == null && board[cell.Row - direction][cell.Column + 1].Piece != null && board[cell.Row - direction][cell.Column + 1].Piece.Color != cell.Piece.Color)
                     {
                         Utility.neighbors.Add(board[cell.Row - 2 * direction][cell.Column + 2]);
                         board[cell.Row - 2 * direction][cell.Column + 2].Highlight = Utility.cell_highlight;
@@ -192,7 +195,7 @@ namespace WpfGame.Services
                         Utility.neighbors.Add(board[cell.Row - direction][cell.Column - 1]);
                         board[cell.Row - direction][cell.Column - 1].Highlight = Utility.cell_highlight;
                     }
-                    else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column - 2) && board[cell.Row - 2 * direction][cell.Column - 2].Piece == null && board[cell.Row - direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
+                    else if (Utility.isInBounds(cell.Row - 2 * direction, cell.Column - 2) && board[cell.Row - 2 * direction][cell.Column - 2].Piece == null && board[cell.Row - direction][cell.Column - 1].Piece != null && board[cell.Row - direction][cell.Column - 1].Piece.Color != cell.Piece.Color)
                     {
                         Utility.neighbors.Add(board[cell.Row - 2 * direction][cell.Column - 2]);
                         board[cell.Row - 2 * direction][cell.Column - 2].Highlight = Utility.cell_highlight;
@@ -207,14 +210,11 @@ namespace WpfGame.Services
         {
             if (Utility.selectedCell == cell)
             {
-                //if (Utility.selectedCell != null)
-                //{
-                    foreach (var square in Utility.neighbors)
-                    {
-                        square.Highlight = null;
-                    }
-                    Utility.neighbors.Clear();
-                //}
+                foreach (var square in Utility.neighbors)
+                {
+                    square.Highlight = null;
+                }
+                Utility.neighbors.Clear();
 
                 findPossibleMoves(cell);
 
